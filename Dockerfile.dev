@@ -3,3 +3,6 @@ FROM python:3.12.4-bullseye
 WORKDIR /app
 
 RUN git config --global --add safe.directory /app
+
+# this pip install takes forever, look into how we can only do this on rebuild
+RUN pip install ChatTTS
