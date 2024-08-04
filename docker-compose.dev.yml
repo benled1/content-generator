@@ -1,9 +1,11 @@
 version: '3'
 services:
   content-generator:
-    image: python:3.12.4-bullseye
-    working_dir: /app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
+      - ~/.gitconfig/:/etc/gitconfig
       - .:/app
     stdin_open: true
     tty: true
