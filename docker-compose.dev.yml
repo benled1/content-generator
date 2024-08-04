@@ -1,0 +1,10 @@
+version: '3'
+services:
+  content-generator:
+    image: python:3.12.4-bullseye
+    working_dir: /app
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+    command: bash
