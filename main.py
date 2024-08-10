@@ -1,1 +1,10 @@
-print("testing that I can make commits from within the dev container")
+from tts_gen import tts_generator
+
+
+
+
+if __name__ == "__main__":
+    tts_gen = tts_generator.TTSGenerator()
+    tts_gen.generate_audio_file("this is test text")
+
+
