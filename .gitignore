@@ -164,3 +164,4 @@ cython_debug/
 # project specific
 asset/
 config/
+*.wav

@@ -1,0 +1,8 @@
+from audio_gen import tts_generator
+
+if __name__ == "__main__":
+    tts_gen = tts_generator.TTSGenerator("./local_media_store/audio")
+    tts_gen.generate_audio_file("Once upon a time, in a world filled with holographic screens and virtual reality, there lived a young girl named Zara. She was part of Generation Alpha, the first generation to grow up with AI assistants and self-driving cars. Zara was curious, always tinkering with gadgets and exploring new apps that let her experience different realities.")
+
+
+
