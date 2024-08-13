@@ -5,7 +5,7 @@ WORKDIR /app
 RUN git config --global --add safe.directory /app
 
 # this pip install takes forever, look into how we can only do this on rebuild
-RUN pip install ChatTTS, faster-whisper
+RUN pip install ChatTTS faster-whisper
 
 RUN apt-get update
 RUN apt-get -y install ffmpeg
