@@ -4,12 +4,12 @@ import uuid
 from faster_whisper import WhisperModel
 
 
-class SubtitleGenerator():
+class _SubtitleGenerator():
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, store_uri) -> None:
+        self.store_uri = store_uri
 
-    def transcribe_audio(self, audio_filepath) -> None:
+    def text_to_srt(self, audio_filepath: str, audio_uuid: str) -> str:
         model = WhisperModel("small")
         segments, info = model.transcribe(audio_filepath, word_timestamps=True)
 
@@ -30,13 +30,14 @@ class SubtitleGenerator():
                 text += "\n"
                 index += 1
 
-        output_file = f"{uuid.uuid4()}.{language}.srt"
-        store_path = "./local_media_store/tmp_files"
-        full_output_path = os.path.join(store_path, output_file)
+        output_file = f"{audio_uuid}.{language}.srt"
+        full_output_path = os.path.join(self.store_uri, output_file)
         with open(full_output_path, "w") as f:
             f.write(text)
 
-    def format_time(self, seconds):
+        return full_output_path
+
+    def format_time(self, seconds: int):
         hours = math.floor(seconds / 3600)
         seconds %= 3600
         minutes = math.floor(seconds / 60)
