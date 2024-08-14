@@ -13,3 +13,5 @@ class AudioGenerator():
         wav_file = self.tts_generator.text_to_wav(text_input=text_input, audio_uuid=audio_uuid)
         srt_file = self.subtitle_generator.text_to_srt(audio_filepath=wav_file, audio_uuid=audio_uuid)
         return wav_file, srt_file 
+    
+
