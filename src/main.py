@@ -1,10 +1,17 @@
-from audio_gen.audio_generator import AudioGenerator
+import uuid
+from utils.audio.text_to_speech import TextToSpeech
+from utils.audio.subtitle_tools import SubtitleTools
 
 if __name__ == "__main__":
-    audio_generator = AudioGenerator()
-    wav_file, srt_file = audio_generator.generate_audio("This is test text and it is funny smile")
-    print(wav_file)
-    print(srt_file)
+    audio_uuid = uuid.uuid4()
+    text_content = "This is sample text content."
+    tts = TextToSpeech()
+    subtitle_tools = SubtitleTools()
+    audio_path = tts.text_to_audio(text_content)
+    subtitle_tools.text_to_srt(audio_path)
+
+    
+
 
 
 

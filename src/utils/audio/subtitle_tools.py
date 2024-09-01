@@ -1,28 +1,34 @@
 import math
 import os
 import uuid
+from pathlib import Path
 from faster_whisper import WhisperModel
+from configurations.constants import SUBTITLE_STORAGE_URI
 
+class AudioTranscriptionFailed(Exception):
+    pass
 
-class _SubtitleGenerator():
+class SubtitleTools():
 
-    def __init__(self, store_uri) -> None:
-        self.store_uri = store_uri
+    def __init__(self, model_size: str="small") -> None:
+        self.model_size=model_size
 
-    def text_to_srt(self, audio_filepath: str, audio_uuid: str) -> str:
-        model = WhisperModel("small")
-        segments, info = model.transcribe(audio_filepath, word_timestamps=True)
+    def text_to_srt(self, audio_filepath: str) -> str:
+        model = WhisperModel(self.model_size)
+        try:
+            segments, info = model.transcribe(audio_filepath, word_timestamps=True)
+        except Exception as e:
+            raise AudioTranscriptionFailed("Failed to transcribe audio.") from e
 
         language = info.language
         segments = list(segments)
-
+        
         text = ""
         index = 0
-
         for segment in segments:
             for word in segment.words:
-                word_start = self.format_time(word.start)
-                word_end = self.format_time(word.end)
+                word_start = self._format_srt_time(word.start)
+                word_end = self._format_srt_time(word.end)
                 text += f"{str(index+1)} \n"
                 text += f"{word_start} --> {word_end} \n"
                 new_word = word.word.replace(" ", "")
@@ -30,14 +36,15 @@ class _SubtitleGenerator():
                 text += "\n"
                 index += 1
 
+        audio_uuid = Path(audio_filepath).stem
         output_file = f"{audio_uuid}.{language}.srt"
-        full_output_path = os.path.join(self.store_uri, output_file)
+        full_output_path = os.path.join(SUBTITLE_STORAGE_URI, output_file)
         with open(full_output_path, "w") as f:
             f.write(text)
 
         return full_output_path
 
-    def format_time(self, seconds: int):
+    def _format_srt_time(self, seconds: int):
         hours = math.floor(seconds / 3600)
         seconds %= 3600
         minutes = math.floor(seconds / 60)
