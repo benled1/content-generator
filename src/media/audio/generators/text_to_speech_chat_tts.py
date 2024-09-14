@@ -1,4 +1,7 @@
 from configurations.constants import AUDIO_STORAGE_URI
+from .i_audio_generator import IAudioGenerator
+from media.audio.audio import Audio
+
 import ChatTTS
 import torch
 import torchaudio
@@ -11,21 +14,29 @@ class _AudioSaveFailed(Exception):
 class _TTSInferFailed(Exception):
     pass
 
-class TextToSpeech:
+"""
+NOTE:
+Create an AudioMaker and then have that inherit some backend generator like this one.
+Then the AudioMaker will have some generic interface like make_audio() that will call
+the TextToSpeech class (or whatever backend you give it). 
+IMPORTANT!@!!!!!! ^^^^^^^
+"""
+
+class TextToSpeechChatTTS(IAudioGenerator):
     """
-    Turns text content to audio files.
+    Turns text content to audio files using ChatTTS as a local model.
     """
 
-    def __init__(self, audio_format:str="wav") -> None:
+    def __init__(self, audio_format: str="wav") -> None:
         self.audio_format=audio_format
         self.sample_rate=24000
 
-    def text_to_audio(self, content: str) -> str:
+    def generate_audio(self, text: str) -> Audio:
         chat = ChatTTS.Chat()
         chat.load(compile=True)
 
         try:
-            audio = np.asarray(chat.infer(content), dtype=np.float32)
+            audio = np.asarray(chat.infer(text), dtype=np.float32)
         except Exception as e:
             raise _TTSInferFailed("Failed to infer audio from text.") from e
 
@@ -36,6 +47,10 @@ class TextToSpeech:
             torchaudio.save(uri=audio_path, format=self.audio_format, src=audio_tensor, sample_rate=self.sample_rate)
         except Exception as e:
             raise _AudioSaveFailed("Failed to save audio to file.") from e
-        return audio_path
+
+        audio_object: Audio = Audio(uri=audio_path)
+        return audio_object
+
+
     
 
