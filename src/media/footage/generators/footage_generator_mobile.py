@@ -8,5 +8,4 @@ class FootageGeneratorMobile(IFootageGenerator):
         pass
 
     def generate_footage(self) -> Footage:
-
         pass 
