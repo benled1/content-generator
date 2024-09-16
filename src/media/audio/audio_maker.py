@@ -1,4 +1,4 @@
-from .generators.i_audio_generator import IAudioGenerator
+from .generators import IAudioGenerator
 from media.audio.audio import Audio
 from typing import Union
 

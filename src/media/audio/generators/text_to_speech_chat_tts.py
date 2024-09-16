@@ -1,5 +1,5 @@
 from configurations.constants import AUDIO_STORAGE_URI
-from .i_audio_generator import IAudioGenerator
+from . import IAudioGenerator
 from media.audio.audio import Audio
 
 import ChatTTS
