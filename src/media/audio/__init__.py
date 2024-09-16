@@ -1,3 +1,3 @@
 from .audio import Audio
-from .audio_maker import AudioMaker
-from .generators import IAudioGenerator, TextToSpeechChatTTS
+from .audio_factory import AudioFactory
+from .generator import TextToSpeechChatTTS

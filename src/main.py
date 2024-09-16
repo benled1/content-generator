@@ -1,5 +1,9 @@
-from media.audio import TextToSpeechChatTTS, IAudioGenerator, AudioMaker, Audio
-from media.subtitle import ISubtitleGenerator, SubtitleGeneratorWhisperModel, SubtitleMaker, Subtitle
+from media.audio import TextToSpeechChatTTS, AudioFactory, Audio
+from media.audio.generator import IAudioGenerator
+from media.subtitle import SubtitleGeneratorWhisperModel, SubtitleFactory, Subtitle
+from media.subtitle.generator import ISubtitleGenerator
+from media.footage import LocalFootageStore, FootageFactory, Footage
+from media.footage.store import IFootageStore
 
 import uuid
 
@@ -20,11 +24,20 @@ EXTRA TODO:
 if __name__ == "__main__":
     
     chat_tts_audio_generator: IAudioGenerator = TextToSpeechChatTTS()
-    audio_maker: AudioMaker  = AudioMaker(audio_generator=chat_tts_audio_generator)
-    audio: Audio = audio_maker.make_audio("This is made with a audio generator and maker.")
     whisper_model_srt_generator : ISubtitleGenerator = SubtitleGeneratorWhisperModel()
-    subtitle_maker: SubtitleMaker = SubtitleMaker(whisper_model_srt_generator)
-    subtitle: Subtitle = subtitle_maker.make_subtitle(audio)
+    local_footage_store: IFootageStore = LocalFootageStore()
+
+    audio_factory: AudioFactory  = AudioFactory(audio_generator=chat_tts_audio_generator)
+    subtitle_factory: SubtitleFactory = SubtitleFactory(subtitle_generator=whisper_model_srt_generator)
+    footage_factory: FootageFactory = FootageFactory(footage_store=local_footage_store)
+
+
+    audio: Audio = audio_factory.make_audio("This is made with a audio generator and maker.")
+    subtitle: Subtitle = subtitle_factory.make_subtitle(audio)
+    footage: Footage = footage_factory.make_footage("minecraft")
+    print(footage)
+    
+
     
 
     

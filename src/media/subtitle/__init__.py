@@ -1,3 +1,3 @@
 from .subtitle import Subtitle
-from .subtitle_maker import SubtitleMaker
-from .generators import ISubtitleGenerator, SubtitleGeneratorWhisperModel
+from .subtitle_factory import SubtitleFactory
+from .generator import SubtitleGeneratorWhisperModel

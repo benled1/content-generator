@@ -1,8 +1,8 @@
-from .generators import IAudioGenerator
+from .generator import IAudioGenerator
 from media.audio.audio import Audio
 from typing import Union
 
-class AudioMaker():
+class AudioFactory():
 
     def __init__(self, audio_generator: IAudioGenerator) -> None:
         self._audio_generator = audio_generator

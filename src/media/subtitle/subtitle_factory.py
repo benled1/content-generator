@@ -1,5 +1,5 @@
 from media.audio.audio import Audio
-from media.subtitle.generators.i_subtitle_generator import ISubtitleGenerator
+from media.subtitle.generator import ISubtitleGenerator
 from .subtitle import Subtitle
 from pathlib import Path
 from faster_whisper import WhisperModel
@@ -10,7 +10,7 @@ import os
 import uuid
 
 
-class SubtitleMaker():
+class SubtitleFactory():
 
     def __init__(self, subtitle_generator: ISubtitleGenerator) -> None:
         self.subtitle_generator = subtitle_generator
