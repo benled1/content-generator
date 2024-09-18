@@ -4,7 +4,7 @@ from media.audio.audio import Audio
 from media.subtitle.subtitle import Subtitle
 from pathlib import Path
 from faster_whisper import WhisperModel
-from configurations.constants import SUBTITLE_STORAGE_URI
+from configurations.constants import TMP_DIR
 
 import math
 import os
@@ -44,13 +44,15 @@ class SubtitleGeneratorWhisperModel(ISubtitleGenerator):
 
         audio_uuid = Path(ref_audio.uri).stem
         output_file = f"{audio_uuid}.{language}.srt"
-        full_output_path = os.path.join(SUBTITLE_STORAGE_URI, output_file)
+        full_subtitle_path = self._save_subtitle(text, output_file)
+        
+        return Subtitle(full_subtitle_path)
+
+    def _save_subtitle(self, text: str, subtitle_file: str) -> str:
+        full_output_path = os.path.join(TMP_DIR, 'misc', 'subtitle', subtitle_file)
         with open(full_output_path, "w") as f:
             f.write(text)
-        
-        output_subtitle = Subtitle(full_output_path)
-
-        return output_subtitle
+        return full_output_path
     
     def _format_srt_time(self, seconds: int):
         hours = math.floor(seconds / 3600)

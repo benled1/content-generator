@@ -1,4 +1,4 @@
-from configurations.constants import AUDIO_STORAGE_URI
+from configurations.constants import TMP_DIR
 from . import IAudioGenerator
 from media.audio.audio import Audio
 
@@ -43,14 +43,16 @@ class TextToSpeechChatTTS(IAudioGenerator):
         audio_tensor = torch.from_numpy(audio).squeeze().unsqueeze(0)
 
         try:
-            audio_path = os.path.join(AUDIO_STORAGE_URI, f"{uuid.uuid4()}.{self.audio_format}")
-            torchaudio.save(uri=audio_path, format=self.audio_format, src=audio_tensor, sample_rate=self.sample_rate)
+            audio_path = os.path.join(TMP_DIR, "misc", "audio", f"{uuid.uuid4()}.{self.audio_format}")
+            self._save_audio(audio_path, audio_tensor)
         except Exception as e:
             raise _AudioSaveFailed("Failed to save audio to file.") from e
 
         audio_object: Audio = Audio(uri=audio_path)
         return audio_object
-
+    
+    def _save_audio(self, audio_path: str, audio_tensor) -> None:
+        torchaudio.save(uri=audio_path, format=self.audio_format, src=audio_tensor, sample_rate=self.sample_rate)
 
     
 

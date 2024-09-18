@@ -1,3 +1,2 @@
-AUDIO_STORAGE_URI="/app/local_media_store/audio"
-SUBTITLE_STORAGE_URI="/app/local_media_store/subtitles"
-FOOTAGE_STORAGE_URI="/app/local_media_store/footage"
+TMP_DIR="/app/tmp"
+FOOTAGE_STORE_URI="/app/tests/test_footage"

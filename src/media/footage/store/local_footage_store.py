@@ -1,6 +1,6 @@
 from media.footage import Footage
 from .i_footage_store import IFootageStore
-from configurations.constants import FOOTAGE_STORAGE_URI
+from configurations.constants import FOOTAGE_STORE_URI
 
 
 class LocalFootageStore(IFootageStore):
@@ -9,4 +9,4 @@ class LocalFootageStore(IFootageStore):
         pass
 
     def get_footage(self, query: str) -> Footage:
-        return Footage(FOOTAGE_STORAGE_URI)
+        return Footage(FOOTAGE_STORE_URI)

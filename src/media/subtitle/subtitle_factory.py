@@ -3,7 +3,6 @@ from media.subtitle.generator import ISubtitleGenerator
 from .subtitle import Subtitle
 from pathlib import Path
 from faster_whisper import WhisperModel
-from configurations.constants import SUBTITLE_STORAGE_URI
 
 import math
 import os

@@ -9,11 +9,10 @@ import uuid
 
 """
 TODO:
-- create a footage generator/maker class that will retrieve or gen footage in some way. abstract this out in the same way it was done for both subtitles and audio
-- abstract away the method of uploading from the generator class. Generator should make and return the object with a reference to a local tmp file. Uploader/StorageManager should store the file
-    in a more official place like s3 or a none tmp file like (local_media_store)
-- create tests for each of the packages and their main functionality. This includes unit tests and integration tests. Integration tests should test the whole class like for example
-    the Audio integration test would create a full audio file and then check to see if it is a valid .wav file or whatever the expected output is.
+- make the audio, subittle, and footage populate a tmp dir with the name of that dir being the uid for that video/content
+- create a integration test for audio, footage, and subtitle. Basically for each test, run to make sure the files are good.
+- create unit tests for each of the packages mentioned above
+- during the two above, tweak code as needed if it feels off while using it.
 
 
 EXTRA TODO:
@@ -32,7 +31,8 @@ if __name__ == "__main__":
     footage_factory: FootageFactory = FootageFactory(footage_store=local_footage_store)
 
 
-    audio: Audio = audio_factory.make_audio("This is made with a audio generator and maker.")
+    audio: Audio = audio_factory.make_audio("Poopoo peepee poopy pee")
+    print(audio)
     subtitle: Subtitle = subtitle_factory.make_subtitle(audio)
     footage: Footage = footage_factory.make_footage("minecraft")
     print(footage)
