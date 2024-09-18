@@ -9,7 +9,7 @@ import uuid
 
 """
 TODO:
-- make the audio, subittle, and footage populate a tmp dir with the name of that dir being the uid for that video/content
+- create a video_factory that will take video_request objects as input and make video objects as output.
 - create a integration test for audio, footage, and subtitle. Basically for each test, run to make sure the files are good.
 - create unit tests for each of the packages mentioned above
 - during the two above, tweak code as needed if it feels off while using it.
