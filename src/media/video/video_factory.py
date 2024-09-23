@@ -62,7 +62,8 @@ class VideoFactory:
         
         # work done here to get the footage by theme from the store.
         local_footage_store = LocalFootageStore()
-        return local_footage_store.get_footage(query=footage_theme)
+        footage_factory = FootageFactory(footage_store=local_footage_store)
+        return footage_factory.make_footage(query=footage_theme)
         
 
 
