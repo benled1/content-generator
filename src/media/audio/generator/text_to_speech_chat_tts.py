@@ -1,12 +1,12 @@
 from configurations.constants import TMP_DIR
 from . import IAudioGenerator
 from media.audio.audio import Audio
+from uuid import UUID
 
 import ChatTTS
 import torch
 import torchaudio
 import numpy as np
-import uuid
 import os
 
 class _AudioSaveFailed(Exception):
@@ -31,7 +31,7 @@ class TextToSpeechChatTTS(IAudioGenerator):
         self.audio_format=audio_format
         self.sample_rate=24000
 
-    def generate_audio(self, text: str) -> Audio:
+    def generate_audio(self, text: str, uuid: UUID) -> Audio:
         chat = ChatTTS.Chat()
         chat.load(compile=True)
 
@@ -43,7 +43,7 @@ class TextToSpeechChatTTS(IAudioGenerator):
         audio_tensor = torch.from_numpy(audio).squeeze().unsqueeze(0)
 
         try:
-            audio_path = os.path.join(TMP_DIR, "misc", "audio", f"{uuid.uuid4()}.{self.audio_format}")
+            audio_path = os.path.join(TMP_DIR, "misc", "audio", f"{uuid}.{self.audio_format}")
             self._save_audio(audio_path, audio_tensor)
         except Exception as e:
             raise _AudioSaveFailed("Failed to save audio to file.") from e

@@ -1,4 +1,7 @@
 import random
+import os
+import moviepy.editor as mpe
+
 
 from media.audio import Audio, AudioFactory
 from media.audio.generator import TextToSpeechChatTTS
@@ -9,6 +12,7 @@ from media.footage.store import LocalFootageStore
 from .video_request import VideoRequest
 from .video import Video
 from .video_request_enums import AudioQuality, FootageTheme
+from configurations.constants import TMP_DIR
 
 class VideoFactory:
 
@@ -28,7 +32,26 @@ class VideoFactory:
         footage = self._get_footage(video_request=video_request)
 
         # compile the video
-        
+        mpe_audio = mpe.AudioFileClip(audio.uri) # get the audio file clip
+        mpe_footage = mpe.VideoFileClip(footage.uri) # get the video file clip
+
+        # cut the footage 
+        footage_start_time = random.randint(0, ((int)(mpe_footage.duration - mpe_audio.duration) + 1))
+        footage_end_time = footage_start_time + mpe_audio.duration + 1
+        mpe_footage = mpe_footage.subclip(footage_start_time, footage_end_time)
+
+        # add the audio
+        mpe_footage = mpe_footage.set_audio(mpe_audio)
+
+        # generate the subtitles clip
+        text_generator = lambda txt: mpe.TextClip(txt, font='Impact', fontsize=50, color="white", stroke_color="black", stroke_width=2,  size=mpe_footage.size)
+        mpe_subtitles = mpe.SubtitlesClip(subtitles.uri, text_generator)
+
+        # compile the final video
+        output_video_path = os.path.join(TMP_DIR, f"{video_request.uuid}.mp4")
+        mpe_composite_clip = mpe.CompositeVideoClip([mpe_footage, mpe_subtitles])
+        mpe_composite_clip.write_videofile(output_video_path)
+        return Video(output_video_path)
 
 
     def _create_audio(self, video_request: VideoRequest) -> Audio:
@@ -38,7 +61,7 @@ class VideoFactory:
             case AudioQuality.LOW:
                 chat_tts_audio_generator = TextToSpeechChatTTS()
                 audio_factory = AudioFactory(audio_generator=chat_tts_audio_generator)
-                return audio_factory.make_audio(video_request.audio_text)
+                return audio_factory.make_audio(video_request.audio_text, uuid=video_request.uuid)
             case AudioQuality.MEDIUM:
                 print("AudioQuality.MEDIUM case is not yet implemented.")
                 return None
@@ -52,7 +75,7 @@ class VideoFactory:
             return None
         whisper_generator = SubtitleGeneratorWhisperModel()
         subtitle_factory = SubtitleFactory(subtitle_generator=whisper_generator)
-        return subtitle_factory.make_subtitle(audio)
+        return subtitle_factory.make_subtitle(audio, video_request.uuid)
         
     def _get_footage(self, video_request: VideoRequest) -> Footage:
         if video_request.footage_theme == FootageTheme.RANDOM:
@@ -63,7 +86,7 @@ class VideoFactory:
         # work done here to get the footage by theme from the store.
         local_footage_store = LocalFootageStore()
         footage_factory = FootageFactory(footage_store=local_footage_store)
-        return footage_factory.make_footage(query=footage_theme)
+        return footage_factory.make_footage(theme=footage_theme, uuid=video_request.uuid)
         
 
 

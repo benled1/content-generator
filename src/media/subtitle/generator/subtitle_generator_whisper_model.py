@@ -2,6 +2,7 @@ from .i_subtitle_generator import ISubtitleGenerator
 from media.audio.audio import Audio
 from media.audio.audio import Audio
 from media.subtitle.subtitle import Subtitle
+from uuid import UUID
 from pathlib import Path
 from faster_whisper import WhisperModel
 from configurations.constants import TMP_DIR
@@ -19,7 +20,7 @@ class SubtitleGeneratorWhisperModel(ISubtitleGenerator):
         self.model_size = model_size
         pass
 
-    def generate_subtitle(self, ref_audio: Audio):
+    def generate_subtitle(self, ref_audio: Audio, uuid: UUID):
         model = WhisperModel(self.model_size)
         try:
             segments, info = model.transcribe(ref_audio.uri, word_timestamps=True)
@@ -42,8 +43,7 @@ class SubtitleGeneratorWhisperModel(ISubtitleGenerator):
                 text += "\n"
                 index += 1
 
-        audio_uuid = Path(ref_audio.uri).stem
-        output_file = f"{audio_uuid}.{language}.srt"
+        output_file = f"{uuid}.{language}.srt"
         full_subtitle_path = self._save_subtitle(text, output_file)
         
         return Subtitle(full_subtitle_path)

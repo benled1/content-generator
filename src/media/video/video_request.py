@@ -1,3 +1,4 @@
+from uuid import UUID, uuid4
 from dataclasses import dataclass 
 from .video_request_enums import AudioQuality, FootageTheme
 
@@ -6,6 +7,7 @@ class InvalidInput(Exception):
 
 @dataclass
 class VideoRequest:
+    uuid: UUID = uuid4()
     footage_theme: str = "random" 
     audio_quality: str = "low"
     audio_text: str = ""
@@ -25,6 +27,7 @@ class VideoRequest:
                 current_type = type(self.__dict__[name])
                 raise TypeError(f"The field '{name}' was assigned by '{current_type}' instead of '{field_type}'")
 
+        #enum type checking
         if AudioQuality(self.audio_quality) not in AudioQuality:
             raise InvalidInput("Video request contains invalid audio_quality.")
         if FootageTheme(self.footage_theme) not in FootageTheme:
