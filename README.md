@@ -11,3 +11,9 @@ docker compose -f docker-compose.dev.yml up -it
 
 - need a way to turn text to speech and save as audio file.
 - need a way to combine that audio with a boiler plate video. (this boiler plate video should probably be generated before hand (not in content generation step.))
+
+
+# find the lines of code with this :) 
+```
+ find . -name '*.py' | xargs wc -l
+```
