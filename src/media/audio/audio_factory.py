@@ -9,6 +9,6 @@ class AudioFactory():
         self._audio_generator = audio_generator
 
     def make_audio(self, input_data: str, uuid: UUID) -> Audio:
-        return self._audio_generator.generate_audio(input_data)
+        return self._audio_generator.generate_audio(input_data, uuid)
 
     

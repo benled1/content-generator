@@ -27,7 +27,7 @@ class TextToSpeechChatTTS(IAudioGenerator):
     Turns text content to audio files using ChatTTS as a local model.
     """
 
-    def __init__(self, audio_format: str="wav") -> None:
+    def __init__(self, audio_format) -> None:
         self.audio_format=audio_format
         self.sample_rate=24000
 

@@ -2,7 +2,7 @@ import random
 import os
 import moviepy.editor as mpe
 
-
+from moviepy.video.tools.subtitles import SubtitlesClip
 from media.audio import Audio, AudioFactory
 from media.audio.generator import TextToSpeechChatTTS
 from media.subtitle import Subtitle, SubtitleFactory
@@ -23,11 +23,11 @@ class VideoFactory:
         """
         Parse the video request and create the necessary components for the video.
         """
+        print(f"Starting video compilation video request = {video_request}")
         #create audio
         audio = self._create_audio(video_request=video_request)
         #create subtitles 
-        if audio is not None:
-            subtitles = self._create_subtitles(audio=audio, video_request=video_request)
+        subtitles = self._create_subtitles(audio=audio, video_request=video_request)
         #get footage
         footage = self._get_footage(video_request=video_request)
 
@@ -43,25 +43,28 @@ class VideoFactory:
         # add the audio
         mpe_footage = mpe_footage.set_audio(mpe_audio)
 
-        # generate the subtitles clip
+        # generate the subtitles clip and compile the video
         text_generator = lambda txt: mpe.TextClip(txt, font='Impact', fontsize=50, color="white", stroke_color="black", stroke_width=2,  size=mpe_footage.size)
-        mpe_subtitles = mpe.SubtitlesClip(subtitles.uri, text_generator)
+        if subtitles is None:
+            mpe_subtitles = None
+            mpe_composite_clip = mpe_footage
+        else:
+            print(f"Creating subtitles for {subtitles}")
+            mpe_subtitles = SubtitlesClip(subtitles.uri, text_generator)
+            mpe_composite_clip = mpe.CompositeVideoClip([mpe_footage, mpe_subtitles])
 
-        # compile the final video
-        output_video_path = os.path.join(TMP_DIR, f"{video_request.uuid}.mp4")
-        mpe_composite_clip = mpe.CompositeVideoClip([mpe_footage, mpe_subtitles])
+        # write out the final video
+        output_video_path = os.path.join(TMP_DIR, "completed_videos", f"{video_request.uuid}.mp4")
         mpe_composite_clip.write_videofile(output_video_path)
         return Video(output_video_path)
 
 
     def _create_audio(self, video_request: VideoRequest) -> Audio:
-        if not video_request.include_audio:
-            return None
-        match video_request.audio_quality:
+        match AudioQuality(video_request.audio_quality):
             case AudioQuality.LOW:
-                chat_tts_audio_generator = TextToSpeechChatTTS()
+                chat_tts_audio_generator = TextToSpeechChatTTS(video_request.audio_format)
                 audio_factory = AudioFactory(audio_generator=chat_tts_audio_generator)
-                return audio_factory.make_audio(video_request.audio_text, uuid=video_request.uuid)
+                return audio_factory.make_audio(input_data=video_request.audio_text, uuid=video_request.uuid)
             case AudioQuality.MEDIUM:
                 print("AudioQuality.MEDIUM case is not yet implemented.")
                 return None

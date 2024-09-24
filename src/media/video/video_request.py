@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 from dataclasses import dataclass 
-from .video_request_enums import AudioQuality, FootageTheme
+from .video_request_enums import AudioQuality, FootageTheme, AudioFormats
 
 class InvalidInput(Exception):
     pass
@@ -11,7 +11,7 @@ class VideoRequest:
     footage_theme: str = "random" 
     audio_quality: str = "low"
     audio_text: str = ""
-    include_audio: bool = True
+    audio_format: str = "wav"
     include_subtitles: bool = True
 
     def __post_init__(self):
@@ -32,6 +32,8 @@ class VideoRequest:
             raise InvalidInput("Video request contains invalid audio_quality.")
         if FootageTheme(self.footage_theme) not in FootageTheme:
             raise InvalidInput("Video request contains invalid footage_theme.")
+        if AudioFormats(self.audio_format) not in AudioFormats:
+            raise InvalidInput("Video request contains invalid audio_format.")
         if not isinstance(self.audio_text, (str, None)):
             raise InvalidInput("Video request contains invalid audio_text.")
 
