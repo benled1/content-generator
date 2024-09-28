@@ -13,6 +13,7 @@ class VideoRequest:
     audio_text: str = ""
     audio_format: str = "wav"
     include_subtitles: bool = True
+    subtitle_font: str = "DejaVu-Sans"
 
     def __post_init__(self):
         self.validate_input()
@@ -21,13 +22,13 @@ class VideoRequest:
         """
         Validate the input provided to the VideoRequest.
         """
-        #basic type checking
+        # basic type checking
         for (name, field_type) in self.__annotations__.items():
             if not isinstance(self.__dict__[name], field_type):
                 current_type = type(self.__dict__[name])
                 raise TypeError(f"The field '{name}' was assigned by '{current_type}' instead of '{field_type}'")
 
-        #enum type checking
+        # enum type checking
         if AudioQuality(self.audio_quality) not in AudioQuality:
             raise InvalidInput("Video request contains invalid audio_quality.")
         if FootageTheme(self.footage_theme) not in FootageTheme:
