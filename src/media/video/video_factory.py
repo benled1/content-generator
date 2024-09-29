@@ -46,13 +46,10 @@ class VideoFactory:
         # generate the subtitles clip and compile the video
         text_generator = lambda txt: mpe.TextClip(txt, font=video_request.subtitle_font, fontsize=50, color="white", stroke_color="black", stroke_width=2,  size=mpe_footage.size)
         if subtitles is None:
-            print("Subtitles = None")
             mpe_subtitles = None
             mpe_composite_clip = mpe_footage
         else:
-            print(f"Creating subtitles for {subtitles} at {subtitles.uri}")
             mpe_subtitles = SubtitlesClip(subtitles.uri, text_generator)
-            mpe_subtitles.save_frame("preview_subtitle_frame.png", t=0)
             mpe_composite_clip = mpe.CompositeVideoClip([mpe_footage, mpe_subtitles.set_position(("center", "bottom"))])
 
         # write out the final video
