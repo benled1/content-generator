@@ -9,3 +9,6 @@ class FootageTheme(Enum):
     RANDOM = "random"
     MINECRAFT = "minecraft"
     SATISFYING = "satisfying"
+
+class AudioFormats(Enum):
+    WAV = "wav"

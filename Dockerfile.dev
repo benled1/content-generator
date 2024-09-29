@@ -5,9 +5,22 @@ WORKDIR /app
 RUN git config --global --add safe.directory /app
 
 # this pip install takes forever, look into how we can only do this on rebuild
-RUN pip install ChatTTS faster-whisper
+RUN pip install ChatTTS faster-whisper moviepy
 
 RUN apt-get update
-RUN apt-get -y install ffmpeg
+RUN apt-get -y install ffmpeg \
+    imagemagick \
+    libmagickwand-dev \
+    fontconfig \
+    wget \
+    unzip
+
+# refresh font cache
+RUN fc-cache -f -v
+
+# Modify ImageMagick policy
+RUN sed -i 's/rights="none" pattern="@\*"/rights="read|write" pattern="@*"/' /etc/ImageMagick-6/policy.xml
+
+# install youtube downloader cli
 RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /bin/yt-dlp
 RUN chmod a+rx /bin/yt-dlp  # Make executable
