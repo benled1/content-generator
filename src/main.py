@@ -1,16 +1,16 @@
 from media.video import Video, VideoRequest, VideoFactory
 from storage import VideoStore, S3StorageHandler
+from fastapi import FastAPI
 
 import uuid
 
-"""
-TODO:
-- create the s3 storage handler and store a video that was made in s3
-- create a fastapi endpoint and expose the endpoint via a server
 
-EXTRA TODO:
-- change the audio and subtitles and footage 
-"""
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": "Hello world from content-gen root"}
 
 
 if __name__ == "__main__":
