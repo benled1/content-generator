@@ -1,2 +1,2 @@
-from i_storage_handler import IStorageHandler
-from s3_storage_handler import S3StorageHandler
+from .i_object_storage_handler import IObjectStorageHandler
+from .s3_storage_handler import S3StorageHandler
