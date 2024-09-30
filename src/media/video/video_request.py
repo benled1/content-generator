@@ -37,29 +37,3 @@ class VideoRequest:
             raise InvalidInput("Video request contains invalid audio_format.")
         if not isinstance(self.audio_text, (str, None)):
             raise InvalidInput("Video request contains invalid audio_text.")
-
-
-
-# BELOW SHOWS AN EXAMPLE OF HOW TO USE A DATACLASS IN PYTHON
-"""
-from dataclasses import dataclass, field
-from typing import Any, Dict
-
-@dataclass
-class MyClass:
-    name: str
-    age: int
-    email: str = ''
-    is_active: bool = True
-    extra_params: Dict[str, Any] = field(default_factory=dict)
-
-    def __post_init__(self):
-        self.validate_inputs()
-
-    def validate_inputs(self):
-        if not isinstance(self.name, str) or len(self.name) == 0:
-            raise ValueError("Name must be a non-empty string")
-        if not isinstance(self.age, int) or self.age < 0:
-            raise ValueError("Age must be a non-negative integer")
-        # Add more validations as needed
-"""
