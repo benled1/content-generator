@@ -1,4 +1,4 @@
-from storage.handlers.i_object_storage_handler import IObjectStorageHandler
+from content_gen.storage.handlers.i_object_storage_handler import IObjectStorageHandler
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 

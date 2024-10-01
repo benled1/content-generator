@@ -3,9 +3,9 @@ import os
 
 from uuid import UUID
 
-from media.footage import Footage
+from content_gen.media.footage import Footage
 from .i_footage_store import IFootageStore
-from configurations.constants import FOOTAGE_STORE_URI, TMP_DIR
+from content_gen.configurations.constants import FOOTAGE_STORE_URI, TMP_DIR
 
 
 class LocalFootageStore(IFootageStore):

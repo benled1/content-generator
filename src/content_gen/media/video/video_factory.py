@@ -3,16 +3,16 @@ import os
 import moviepy.editor as mpe
 
 from moviepy.video.tools.subtitles import SubtitlesClip
-from media.audio import Audio, AudioFactory
-from media.audio.generator import TextToSpeechChatTTS
-from media.subtitle import Subtitle, SubtitleFactory
-from media.subtitle.generator import SubtitleGeneratorWhisperModel
-from media.footage import Footage, FootageFactory
-from media.footage.store import LocalFootageStore
-from .video_request import VideoRequest
+from content_gen.media.audio import Audio, AudioFactory
+from content_gen.media.audio.generator import TextToSpeechChatTTS
+from content_gen.media.subtitle import Subtitle, SubtitleFactory
+from content_gen.media.subtitle.generator import SubtitleGeneratorWhisperModel
+from content_gen.media.footage import Footage, FootageFactory
+from content_gen.media.footage.store import LocalFootageStore
+from content_gen.models.video_request import VideoRequest
 from .video import Video
 from .video_request_enums import AudioQuality, FootageTheme
-from configurations.constants import TMP_DIR
+from content_gen.configurations.constants import TMP_DIR
 
 class VideoFactory:
 

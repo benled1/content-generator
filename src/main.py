@@ -1,5 +1,6 @@
-from media.video import Video, VideoRequest, VideoFactory
-from storage import VideoStore, S3StorageHandler
+from content_gen.media.video import Video, VideoFactory
+from content_gen.models import VideoRequest
+from content_gen.storage import VideoStore, S3StorageHandler
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -17,9 +18,9 @@ async def root():
 TODO: CHANGE THE VIDEOREQUEST FROM A DATA CLASS TO PYDANTIC BASEMODEL
 """
 @app.post("/api/v1/video")
-async def post_video():
-
-    pass
+async def create_video(video_request: VideoRequest):
+    video
+    return video    
 
 if __name__ == "__main__":
 

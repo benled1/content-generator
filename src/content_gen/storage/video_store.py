@@ -1,5 +1,5 @@
 from .handlers import IObjectStorageHandler
-from configurations.constants import VIDEO_BUCKET_NAME
+from content_gen.configurations.constants import VIDEO_BUCKET_NAME
 
 import os
 
