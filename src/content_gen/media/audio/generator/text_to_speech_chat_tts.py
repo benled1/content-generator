@@ -1,6 +1,6 @@
-from configurations.constants import TMP_DIR
+from content_gen.configurations.constants import TMP_DIR
 from . import IAudioGenerator
-from media.audio.audio import Audio
+from content_gen.media.audio.audio import Audio
 from uuid import UUID
 
 import ChatTTS

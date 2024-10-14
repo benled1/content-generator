@@ -1,11 +1,7 @@
 from abc import ABC, abstractmethod
-from media.audio.audio import Audio
+from content_gen.media.audio.audio import Audio
 from uuid import UUID
 
-
-"""
-IMPORTANT NOTE: remove the typing stuff from audio. This is overcomplicating things this early on and should just take a string input for now. 
-"""
 
 class ISubtitleGenerator(ABC):
     @abstractmethod

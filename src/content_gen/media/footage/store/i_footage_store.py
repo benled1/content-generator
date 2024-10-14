@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from media.footage import Footage
+from content_gen.media.footage import Footage
 
 
 class IFootageStore:

@@ -1,11 +1,11 @@
 from .i_subtitle_generator import ISubtitleGenerator
-from media.audio.audio import Audio
-from media.audio.audio import Audio
-from media.subtitle.subtitle import Subtitle
+from content_gen.media.audio.audio import Audio
+from content_gen.media.audio.audio import Audio
+from content_gen.media.subtitle.subtitle import Subtitle
 from uuid import UUID
 from pathlib import Path
 from faster_whisper import WhisperModel
-from configurations.constants import TMP_DIR
+from content_gen.configurations.constants import TMP_DIR
 
 import math
 import os
