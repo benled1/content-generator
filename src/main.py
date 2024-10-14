@@ -1,12 +1,10 @@
 from content_gen.media.video import Video, VideoFactory
-from content_gen.models import VideoRequest
+from content_gen.models import VideoRequest, VideoResponse
 from content_gen.storage import VideoStore, S3StorageHandler
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 import uuid
-
-
 
 app = FastAPI()
 
@@ -14,23 +12,34 @@ app = FastAPI()
 async def root():
     return {"message": "Hello world from content-gen root"}
 
-"""
-TODO: CHANGE THE VIDEOREQUEST FROM A DATA CLASS TO PYDANTIC BASEMODEL
-"""
 @app.post("/api/v1/video")
 async def create_video(video_request: VideoRequest):
-    video
-    return video    
+    print(f"Creating a video for {video_request.__dict__}")
+    video_factory = VideoFactory()
+    video = video_factory.make_video(video_request=video_request)
+
+    # store the video in cloud
+    storage_handler = S3StorageHandler()
+    video_store = VideoStore(storage_handler=storage_handler)
+    object_uri = video_store.store_video(video.uri)
+    if not object_uri:
+        print("Upload failed.")
+        raise HTTPException(status_code=500, detail="Video upload failed.")
+    video_response = VideoResponse(uuid=video_request.uuid, video_uri=object_uri)
+    return video_response    
 
 if __name__ == "__main__":
 
-    video_request = VideoRequest(audio_text="This is created through the video compilation step!")
+    # make the video
+    video_request = VideoRequest(audio_text="string")
+    print(f"Creating a video for {video_request.__dict__}")
     video_factory = VideoFactory()
     video = video_factory.make_video(video_request=video_request)
+
+    # store the video in cloud
     storage_handler = S3StorageHandler()
     video_store = VideoStore(storage_handler=storage_handler)
-    res = video_store.store_video(video.uri)
-    if res:
-        print("video storage is complete")
-    else:
-        print("video storage failed")
+    uploaded_object = video_store.store_video(video.uri)
+    if not uploaded_object:
+        print("Upload failed.")
+        
