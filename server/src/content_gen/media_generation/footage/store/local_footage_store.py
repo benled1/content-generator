@@ -3,7 +3,7 @@ import os
 
 from uuid import UUID
 
-from content_gen.media.footage import Footage
+from content_gen.media_generation.footage import Footage
 from .i_footage_store import IFootageStore
 from content_gen.configurations.constants import FOOTAGE_STORE_URI, TMP_DIR
 

@@ -3,12 +3,12 @@ import os
 import moviepy.editor as mpe
 
 from moviepy.video.tools.subtitles import SubtitlesClip
-from content_gen.media.audio import Audio, AudioFactory
-from content_gen.media.audio.generator import TextToSpeechChatTTS
-from content_gen.media.subtitle import Subtitle, SubtitleFactory
-from content_gen.media.subtitle.generator import SubtitleGeneratorWhisperModel
-from content_gen.media.footage import Footage, FootageFactory
-from content_gen.media.footage.store import LocalFootageStore
+from content_gen.media_generation.audio import Audio, AudioFactory
+from content_gen.media_generation.audio.generator import TextToSpeechChatTTS
+from content_gen.media_generation.subtitle import Subtitle, SubtitleFactory
+from content_gen.media_generation.subtitle.generator import SubtitleGeneratorWhisperModel
+from content_gen.media_generation.footage import Footage, FootageFactory
+from content_gen.media_generation.footage.store import LocalFootageStore
 from content_gen.models.video_request import VideoRequest
 from .video import Video
 from .video_request_enums import AudioQuality, FootageTheme

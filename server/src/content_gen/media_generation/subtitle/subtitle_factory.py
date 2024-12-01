@@ -1,5 +1,5 @@
-from content_gen.media.audio.audio import Audio
-from content_gen.media.subtitle.generator import ISubtitleGenerator
+from content_gen.media_generation.audio.audio import Audio
+from content_gen.media_generation.subtitle.generator import ISubtitleGenerator
 from .subtitle import Subtitle
 from pathlib import Path
 from faster_whisper import WhisperModel

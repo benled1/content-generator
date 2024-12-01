@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from content_gen.media.audio.audio import Audio
+from content_gen.media_generation.audio.audio import Audio
 from uuid import UUID
 
 
