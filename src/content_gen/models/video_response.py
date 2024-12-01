@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 class VideoResponse(BaseModel):
     uuid: UUID 
-    video_uri: str
+    presigned_video_uri: str
