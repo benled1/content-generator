@@ -1,4 +1,4 @@
-from content_gen.media.video import Video, VideoFactory
+from content_gen.media_generation.video import Video, VideoFactory
 from content_gen.models import VideoRequest, VideoResponse
 from content_gen.storage import VideoStore, S3StorageHandler
 from fastapi import FastAPI, HTTPException

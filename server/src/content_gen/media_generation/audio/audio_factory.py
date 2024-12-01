@@ -1,5 +1,5 @@
 from .generator import IAudioGenerator
-from content_gen.media.audio.audio import Audio
+from content_gen.media_generation.audio.audio import Audio
 from typing import Union
 from uuid import UUID
 

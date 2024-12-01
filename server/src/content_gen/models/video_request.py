@@ -1,7 +1,7 @@
 from uuid import UUID, uuid4
 from dataclasses import dataclass 
 from pydantic import BaseModel
-from ..media.video.video_request_enums import AudioQuality, FootageTheme, AudioFormats
+from ..media_generation.video.video_request_enums import AudioQuality, FootageTheme, AudioFormats
 
 class InvalidInput(Exception):
     pass
